@@ -395,6 +395,11 @@ end
 
 lib.queue_bounds = queue_bounds
 
+function lib.translateQueryFor112(in_query)
+	local query = gsub(in_query, 'player:', 'n-')
+	return query
+end
+
 function lib:AskWhoNext()
 	if lib.frame:IsShown() then
 		dbg("Already waiting")
@@ -465,8 +470,9 @@ function lib:AskWhoNext()
 			self.Quiet = true
 		end
 
-		dbg("QUERY: "..args.query)
-		self.hooked.SendWho(args.query)
+		local translatedQuery = lib.translateQueryFor112(args.query)
+		dbg("TQUERY: "..translatedQuery)
+		self.hooked.SendWho(translatedQuery)
 	else
 		self.Args = nil
 		self.WhoInProgress = false
